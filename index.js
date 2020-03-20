@@ -6,49 +6,62 @@ console.log('=========================');
 console.log('\nPlease enter the operator:');
 const operator = readline.prompt();
 
-console.log('\nPlease enter the first number:')
-const operand1= readline.prompt();
-const firstNumber = +operand1;
+console.log ('\nHow many numbers do you want to ' + operator + ' ?');
+const response = readline.prompt();
+const arrayLength = +response;
 
-console.log('\nPlease enter the second number:');
-const operand2 = readline.prompt();
-const secondNumber = +operand2;
+// ways to create an array giving arrayLength a number
+    // let myArray = new Array(arrayLength);
+    // let myArray = Array(arrayLength);
+let myArray = [];
+myArray.length = arrayLength;
+console.log('let myArray = ' + myArray); // shows myArray empty
+console.log('myArray.length = ' + myArray.length); //outputs length
 
-// var answer;
-let answer;
-
-// Example using if and else
-/*if (operator == '+') {
-    answer = firstNumber + secondNumber;
-} else if (operator == '-') {
-    answer = firstNumber - secondNumber;
-} else if (operator == '*') {
-    answer = firstNumber * secondNumber;
-} else if (operator == '/') {
-    answer = firstNumber / secondNumber;  
-} else {
-    console.log('\n' + operator + ' is not a valid operator');
+//Loop to push entered numbers to myArray 
+for (let i=0; i < arrayLength; i++) {
+    console.log('\nPlease enter number ' + (i + 1) + ':');
+    const operand = readline.prompt();
+    const number = +operand; //turns string into number
+    myArray[i] = number;
+    // myArray.push(number); //set myArray.length to zero using push
 }
-*/
 
+// let answer = myArray.reduce(function(accumulator, currentValue) { return accumulator + currentValue }, 0)
+// console.log('testing reduce iterative method ' + answer);
+
+//Read the array by index for calculations
+let answer = myArray[0];
+for (let i = 1; i < myArray.length; i++) {
+    // Example using if and else
+    if (operator === '+') {
+        answer += myArray[i];
+    } else if (operator === '-') {
+        answer -= myArray[i];
+    } else if (operator === '*') {
+        answer *= myArray[i];
+    } else if (operator === '/') {
+        answer /= myArray[i];
+    } else {
+        console.log('\n' + operator + ' is not a valid operator');
+    }
 // Example using switch
-switch (operator) {
-    case '+':
-        answer = firstNumber + secondNumber;
-        break;
-    case '-':
-        answer = firstNumber - secondNumber;
-        break;
-    case '*':
-        answer = firstNumber * secondNumber;
-        break;
-    case '/':
-        answer = firstNumber / secondNumber;  
-        break
-    default:
-        console.log(operator + ' is not a valid operator');
+// switch (operator) {
+//     case '+':
+//         answer += myArray[i];
+//         break;
+//     case '-':
+//         answer -= myArray[i];
+//         break;
+//     case '*':
+//         answer *= myArray[i];
+//         break;
+//     case '/':
+//         answer /= myArray[i];
+//         break
+//     default:
+//         console.log(operator + ' is not a valid operator');
+// }
 }
 
-// console.log(answer);
-// console.log('The answer is: ' + answer);
-console.log('\nThe answer is: ' + firstNumber + operator + secondNumber + [" = "] + answer);
+console.log('\nThe answer is: ' + answer);
