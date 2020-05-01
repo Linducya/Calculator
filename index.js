@@ -1,43 +1,67 @@
 const readline = require('readline-sync');
 
-console.log('\nWelcome to the calulator!');
-console.log('=========================');
-
-console.log('\nPlease enter the operator:');
-const operator = readline.prompt();
-
-console.log ('\nHow many numbers do you want to ' + operator + ' ?');
-const response = readline.prompt();
-const arrayLength = +response;
-
-// ways to create an array giving arrayLength a number
-    // let myArray = new Array(arrayLength);
-    // let myArray = Array(arrayLength);
-let myArray = [];
-myArray.length = arrayLength;
-
-//Loop to enter numbers to myArray 
-for (let i=0; i < arrayLength; i++) {
-    console.log('\nPlease enter number ' + (i + 1) + ':');
-    const operand = readline.prompt();
-    const number = +operand; //turns string into number
-    myArray[i] = number;
+function printWelcomeMessage() {
+    console.log('\nWelcome to the calulator!');
+    console.log('=========================');
 }
 
-//Read the array by index for calculations
-let answer = myArray[0];
-for (let i = 1; i < myArray.length; i++) {
-    if (operator === '+') {
-        answer += myArray[i];
-    } else if (operator === '-') {
-        answer -= myArray[i];
-    } else if (operator === '*') {
-        answer *= myArray[i];
-    } else if (operator === '/') {
-        answer /= myArray[i];
-    } else {
-        console.log('\n' + operator + ' is not a valid operator');
+function enterResponse(prompt) {
+    console.log('\n' + prompt);
+    return readline.prompt();
+}
+
+function convertNumber(prompt) {
+    let response;
+    do {
+        response = +enterResponse(prompt);
     }
+    while (isNaN(response));
+    return response;
 }
 
-console.log('\nThe answer is: ' + answer);
+function getOperator() {
+    do   {
+        operator = enterResponse('\nPlease enter the operator: ');
+    }
+    while (!(operator == '+' || operator == '-' || operator == '*' || operator == '/'));
+    return operator;
+}
+
+function getNumberArray() {
+    const iterations = convertNumber('\nHow many numbers do you want to ' + operator + ' ?');
+    let myArray = [];
+    myArray.length = iterations;
+    for (let i = 0; i < myArray.length; i++) {  
+        myArray[i] = convertNumber('\nPlease enter number ' + (i + 1) + ':');
+    }
+    console.log(myArray);
+    return myArray;
+}
+
+function calculateAnswer(myArray, operator) {
+    let answer = myArray[0];
+    for (let i = 1; i < myArray.length; i++) {
+        if (operator === '+') {
+            answer += myArray[i];
+        } else if (operator === '-') {
+            answer -= myArray[i];
+        } else if (operator === '*') {
+            answer *= myArray[i];
+        } else if (operator === '/') {
+            answer /= myArray[i];
+        }
+    }
+    return answer;
+}
+
+function performOneCalculation() {
+    const operator = getOperator();
+    const myArray = getNumberArray();
+    const answer = calculateAnswer(myArray, operator);
+    return console.log('\nThe answer is: ' + answer);
+}
+
+printWelcomeMessage();
+while (true) {
+    performOneCalculation();
+}
